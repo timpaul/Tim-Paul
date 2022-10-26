@@ -1,0 +1,62 @@
+name: Deploy
+
+on:
+  gollum: # When the wiki is updated.
+  push:
+    branches: [main]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Check if Wiki is available
+        run: |
+          wikiRemoteUrl="${{ github.server_url }}/${{ github.repository }}.wiki.git"
+          echo "Checking if repository '$wikiRemoteUrl' exists...";
+          if git ls-remote --exit-code $wikiRemoteUrl &> /dev/null; then
+              echo "wikiExists=true" >> $GITHUB_ENV
+              echo "Repository'$wikiRemoteUrl' does exist.";
+          else
+              echo "wikiExists=false" >> $GITHUB_ENV
+              echo "Repository '$wikiRemoteUrl' does not exist.";
+          fi
+      - name: Checkout Wiki repository
+        uses: actions/checkout@v3
+        if: env.wikiExists == 'true'
+        with:
+          repository: ${{ github.repository }}.wiki
+          ref: master
+          path: _wiki
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm start
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: '_site'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

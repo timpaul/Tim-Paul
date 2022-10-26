@@ -1,0 +1,63 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "website-from-github-wiki",
+  "version": "0.0.0",
+  "description": "Website generated from a GitHub wiki",
+  "scripts": {
+    "postinstall": "./bin/get-wiki-files.sh",
+    "start": "eleventy --config='.eleventy.config.cjs'",
+    "dev": "eleventy --config='.eleventy.config.cjs' --serve",
+    "test": "npm run lint",
+    "lint": "eslint lib/**/*.cjs lib/**/*.js .eleventy.config.cjs && prettier --check lib/**/*.cjs lib/**/*.js .eleventy.config.cjs"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.0-canary.16",
+    "@11ty/eleventy-utils": "^1.0.1",
+    "hast-util-from-html": "^1.0.0",
+    "rehype-format": "^4.0.1",
+    "rehype-stringify": "^9.0.3",
+    "remark-breaks": "^3.0.2",
+    "remark-emoji": "^3.0.2",
+    "remark-footnotes": "^4.0.1",
+    "remark-gfm": "^3.0.1",
+    "remark-github": "^11.2.4",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "remark-slug": "^7.0.1",
+    "remark-smartypants": "^2.0.0",
+    "remark-wiki-link": "^1.0.4",
+    "unified": "^10.1.2",
+    "unist-util-visit": "^4.1.1"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:node/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "node/no-unsupported-features/es-syntax": "off"
+    },
+    "parserOptions": {
+      "ecmaVersion": 2022
+    },
+    "ignorePatterns": [
+      "!.eleventy.config.cjs"
+    ]
+  }
+}
