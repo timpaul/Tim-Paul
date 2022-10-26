@@ -12,10 +12,11 @@
   --light-color: var(--white);
   --dark-color: var(--black);
   --text-color: var(--dark-color);
-  --border-color: var(--grey);
+  --border-color: var(--dark-color);
   --background-color: var(--light-color);
   --link-color: var(--blue);
-  --header-text-color: var(--blue);
+  --header-text-color: var(--light-color);
+  --header-background-color: var(--dark-color);
 
   --font-family: -apple-system, linkMacSystemFont, "Helvetica Neue",
     "Helvetica", "Arial", sans-serif;
@@ -29,7 +30,7 @@
   --outline-color: var(--text-color);
   --container-padding: 5vw;
   --main-padding-top: 2rem;
-  --main-padding-bottom: 3rem;
+  --main-padding-bottom: 5rem;
 }
 
 ::-moz-selection {
@@ -305,8 +306,8 @@ hr {
 }
 
 .header {
-  padding-top: 1.5rem;
-  padding-bottom: 1.125rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   color: var(--header-text-color);
   background-color: var(--header-background-color);
   border-bottom: var(--line-thickness) solid var(--border-color);
